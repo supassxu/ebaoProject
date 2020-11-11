@@ -1,1 +1,37 @@
+#一套环境
+host_3.129={"host": "192.168.3.129", "port": 22, "username": "root", "pwd": "zjport"}
+host_3.228={"host": "192.168.3.228", "port": 22, "username": "root", "pwd": "zjport"}
+host_3.239={"host": "192.168.3.239", "port": 22, "username": "root", "pwd": "zjport"}
 host_8.109={"host": "192.168.8.109", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.27={"host": "192.168.8.27", "port": 22, "username": "root", "pwd": "zjport"}
+host_8.64={"host": "192.168.8.64", "port": 22, "username": "root", "pwd": "zjport"}
+host_8.94={"host": "192.168.8.94", "port": 22, "username": "tester", "pwd": "t@987654321"}
+#二套环境
+host_8.113={"host": "192.168.8.113", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.114={"host": "192.168.8.114", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.115={"host": "192.168.8.115", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.116={"host": "192.168.8.116", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.117={"host": "192.168.8.117", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host_8.118={"host": "192.168.8.118", "port": 22, "username": "tester", "pwd": "t@987654321"}
+
+manage_path=/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war
+webapps-yb_path=/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_webapps_yb/webapps/dub-webapps-yb.war
+dubbo-bill-check_path=/usr/local/tomcat/dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz
+openapi_path=/usr/local/tomcat/tomcat8_jdk1.8_8200_DUBAPI/webapps/dub-openapi.war
+exchange_path=/usr/local/tomcat/dub-exchange/dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz
+examine-north_path=/usr/local/tomcat/tomcat8_jdk1.8_8202_DUB_EXAMINE_CENTER/webapps/dub-examine-north-webapp.war
+upload_path=/usr/local/tomcat/tomcat7_jdk1.7_7204_UPLOAD/webapps/dub-upload.war
+webapps_path=/usr/local/tomcat/tomcat7_jdk1.7_7205_DUB_WEBAPPS/webapps/dub-webapps.war
+baseparam_path=/usr/local/tomcat/tomcat7_jdk1.7_7206_BASEPARAM/webapps/dub-baseparam-webapp.war
+recepipt-handler_path=/usr/local/tomcat/dub-receipt-handler/dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz
+dleybsl_path=/usr/local/tomcat/tomcat7_jdk1.7_7200_dub_dleybsl_webapp/webapps/dub-dleybsl-webapp.war
+dlfreight_path=/usr/local/tomcat/tomcat7_jdk1.7_7201_dub_dlfreight_webapp/webapps/dub-dlfreight-webapp.war
+exchange_edl_path=/usr/local/tomcat/tomcat7_jdk1.7_7202_dub_exchange_edl_webapp/webapps/dub-exchange-edl-webapp.war
+finance_path=/server/soft/exchange/deploy/dub-finance-app
+dfs_path=/usr/local/tomcat/dfs-service-7210/dfs-service-1.0.0-SNAPSHOT.jar
+manifest-sz-tools_path=/usr/local/tomcat/dub-manifest-sz-tools-service/dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz
+manifest-sz_path=/usr/local/tomcat/tomcat8_jdk1.8_8200_dub_manifest_sz_mutiproject_webapp/webapps/dub-manifest-sz-webapp.war
+hezhu_path=/usr/local/tomcat/tomcat8_jdk1.8_8201_dub_hezhu_mutiproject_webapp/webapps/dub-hezhu-webapp.war
+szeybsl_path=/usr/local/tomcat/tomcat8_jdk1.8_8202_dub-szeybsl/webapps/dub-szeybsl-webapp.war
+exchange_eport_sz_path=/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_exchange_eport_sz/webapps/dub-exchange-esz-webapp.war
+
