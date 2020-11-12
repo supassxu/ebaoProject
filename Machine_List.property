@@ -1,4 +1,5 @@
 #一套环境
+[test1_env]
 host_3.129={"host": "192.168.3.129", "port": 22, "username": "root", "pwd": "zjport"}
 host_3.228={"host": "192.168.3.228", "port": 22, "username": "root", "pwd": "zjport"}
 host_3.239={"host": "192.168.3.239", "port": 22, "username": "root", "pwd": "zjport"}
@@ -7,13 +8,14 @@ host_8.27={"host": "192.168.8.27", "port": 22, "username": "root", "pwd": "zjpor
 host_8.64={"host": "192.168.8.64", "port": 22, "username": "root", "pwd": "zjport"}
 host_8.94={"host": "192.168.8.94", "port": 22, "username": "tester", "pwd": "t@987654321"}
 #二套环境
+[test2_env]
 host_8.113={"host": "192.168.8.113", "port": 22, "username": "tester", "pwd": "t@987654321"}
 host_8.114={"host": "192.168.8.114", "port": 22, "username": "tester", "pwd": "t@987654321"}
 host_8.115={"host": "192.168.8.115", "port": 22, "username": "tester", "pwd": "t@987654321"}
 host_8.116={"host": "192.168.8.116", "port": 22, "username": "tester", "pwd": "t@987654321"}
 host_8.117={"host": "192.168.8.117", "port": 22, "username": "tester", "pwd": "t@987654321"}
 host_8.118={"host": "192.168.8.118", "port": 22, "username": "tester", "pwd": "t@987654321"}
-
+[test_app_path]
 manage_path=/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war
 webapps-yb_path=/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_webapps_yb/webapps/dub-webapps-yb.war
 dubbo-bill-check_path=/usr/local/tomcat/dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz

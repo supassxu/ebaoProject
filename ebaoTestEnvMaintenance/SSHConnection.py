@@ -1,4 +1,6 @@
 # _*_coding:utf-8_*_
+import configparser
+import json
 
 import paramiko,os,time
 
@@ -56,3 +58,31 @@ class SSHConnection(object):
     # 销毁
     def __del__(self):
         self.close()
+
+if __name__ == '__main__':
+    root_dir = os.path.dirname(os.path.abspath('.'))  # 获取当前文件所在目录的上一级目录，即项目所在目录E:\ebaoProject
+    configpath = os.path.join(root_dir, "Machine_List.property")
+    cf = configparser.ConfigParser()
+    # cf.read("E:\ebaoProject\Machine_List.property") # 读取配置文件
+    cf.read(configpath)  # 读取配置文件
+    # secs = cf.sections()    # 获取文件中所有的section(一个配置文件中可以有多个配置，如数据库相关的配置，邮箱相关的配置，每个section由[]包裹，即[section])，并以列表的形式返回
+    # print(secs)
+    # options = cf.options("test1_env") # 获取某个section名为Mysql-Database所对应的键
+    # print(options)
+
+    items = cf.items("test1_env")  # 获取section名为test1_env所对应的全部键值对
+    print(type(items))
+    print('items:', end='')
+    print(items)
+
+    host = cf.get("test1_env", "host_3.129")  # 获取[test1_env]中host对应的值
+    print('host:'+host)
+    print(type(json.loads(host)))
+    print('host_3.129:', end='')
+    print(json.loads(host)['host'])
+
+    for i in range(len(items)):
+        a = SSHConnection(json.loads(items[i][1]))
+        a.connect()
+        a.download('/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war','E:\\workfile')
+        a.close()
