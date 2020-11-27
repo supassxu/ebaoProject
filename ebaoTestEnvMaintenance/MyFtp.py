@@ -33,8 +33,7 @@ class MyFTP:
         """ 初始化 FTP 客户端
             参数:
                   username: 用户名
-
-                 password: 密码
+                  password: 密码
             """
         try:
             timeout = 60
@@ -62,7 +61,6 @@ class MyFTP:
 
            参数:
              local_file: 本地文件
-
              remote_file: 远程文件
         """
         try:
@@ -87,7 +85,6 @@ class MyFTP:
         """从ftp下载文件
             参数:
                 local_file: 本地文件
-
                 remote_file: 远程文件
         """
         self.debug_print("download_file()---> local_path = %s ,remote_path = %s" % (local_file, remote_file))
@@ -171,9 +168,7 @@ class MyFTP:
     def upload_file_tree(self, local_path, remote_path):
         """从本地上传目录下多个文件到ftp
            参数:
-
              local_path: 本地路径
-
              remote_path: 远程路径
         """
         if not os.path.isdir(local_path):
