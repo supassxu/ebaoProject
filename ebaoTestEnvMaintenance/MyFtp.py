@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+import datetime
 from ftplib import FTP
 import os
 import sys
@@ -260,9 +260,12 @@ if __name__ == "__main__":
     # my_ftp.download_file_tree("G:/ftp_test/", "App/AutoUpload/ouyangpeng/I12/")
 
     # 上传单个文件
-    my_ftp.upload_file("dub-manage-webapps.war", "/package/B-报关服务平台2.0/201127/dub-manage-webapps.war")
-
+    # my_ftp.upload_file("dub-manage-webapps.war", "/package/B-报关服务平台2.0/201127/dub-manage-webapps.war")
+    datepath = datetime.datetime.now().strftime('%Y-%m-%d')
+    datepath1 = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
     # 上传目录
-    # my_ftp.upload_file_tree("G:/ftp_test/", "/App/AutoUpload/ouyangpeng/I12/")
-
+    # my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明")
+    # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明")
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明") # 测试数据
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/数据库脚本")
     my_ftp.close()
