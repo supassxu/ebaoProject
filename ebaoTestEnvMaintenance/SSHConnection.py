@@ -1,10 +1,8 @@
 # _*_coding:utf-8_*_
-import configparser
-import json
 
-import paramiko,os,time
+import paramiko
 
-host1 = {"host": "192.168.8.109", "port": 22, "username": "tester", "pwd": "t@987654321"}
+host1 = {"host": "192.168.8.118", "port": 22, "username": "tester", "pwd": "t@987654321"}
 
 class SSHConnection(object):
 
@@ -59,30 +57,61 @@ class SSHConnection(object):
     def __del__(self):
         self.close()
 
-if __name__ == '__main__':
-    root_dir = os.path.dirname(os.path.abspath('.'))  # 获取当前文件所在目录的上一级目录，即项目所在目录E:\ebaoProject
-    configpath = os.path.join(root_dir, "Machine_List.property")
-    cf = configparser.ConfigParser()
-    # cf.read("E:\ebaoProject\Machine_List.property") # 读取配置文件
-    cf.read(configpath)  # 读取配置文件
-    # secs = cf.sections()    # 获取文件中所有的section(一个配置文件中可以有多个配置，如数据库相关的配置，邮箱相关的配置，每个section由[]包裹，即[section])，并以列表的形式返回
-    # print(secs)
-    # options = cf.options("test1_env") # 获取某个section名为Mysql-Database所对应的键
-    # print(options)
 
-    items = cf.items("test1_env")  # 获取section名为test1_env所对应的全部键值对
-    print(type(items))
-    print('items:', end='')
-    print(items)
+# unicode_utils.py
+# def to_str(bytes_or_str):
+#     """
+#     把byte类型转换为str
+#     :param bytes_or_str:
+#     :return:
+#     """
+#     if isinstance(bytes_or_str, bytes):
+#         value = bytes_or_str.decode('utf-8')
+#     else:
+#         value = bytes_or_str
+#     return value
 
-    host = cf.get("test1_env", "host_3.129")  # 获取[test1_env]中host对应的值
-    print('host:'+host)
-    print(type(json.loads(host)))
-    print('host_3.129:', end='')
-    print(json.loads(host)['host'])
 
-    for i in range(len(items)):
-        a = SSHConnection(json.loads(items[i][1]))
-        a.connect()
-        a.download('/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war','E:\\workfile')
-        a.close()
+"""
+ssh_8_109 = SSHConnection(host1)
+ssh_8_109.connect()
+
+
+#-----------------------客户应用------------------------
+# ----------------------1、杀进程-------------------------
+ssh_8_109.run_cmd(
+    "ps -ef | grep dub-declare-app | grep -v grep | awk '{print $2}' | xargs kill -9")
+
+print("进程已杀")
+# time.sleep(2)
+os.system("cd /root/.jenkins/workspace/DUB-V2.0\(dub-declare-app\)/dub-declare-app/target/ ;tar -cvf dub-declare-app.tar dub-declare-app;")
+print("tar包完成")
+# # ----------------------2、备份原来的包到/back目录下-------------------------
+
+# # 先在对应的tomcat目录下创建目录back
+ssh_8_109.run_cmd(
+    "\cp -rf /server/soft/exchange/deploy/dub-declare-app /server/soft/exchange/bak/")
+# # #----------------------3、删除包-------------------------
+ssh_8_109.run_cmd(
+    "rm -rf /server/soft/exchange/deploy/dub-declare-app")
+# # ----------------------4、拷贝Jenkins服务器上的包到tomcat目录下-------------------------
+# # 由于FTP目录结构存在中文，需要在window资源管理器里打开FTP并复制路径
+
+ssh_8_109.upload(
+    "/root/.jenkins/workspace/DUB-V2.0(dub-declare-app)/dub-declare-app/target/dub-declare-app.tar".decode("utf-8"),
+    "/server/soft/exchange/deploy/dub-declare-app.tar".decode("utf-8"))
+
+
+ssh_8_109.run_cmd(
+    "cd /server/soft/exchange/deploy/;tar -xvf /server/soft/exchange/deploy/dub-declare-app.tar")
+ssh_8_109.run_cmd(
+    "rm -rf /server/soft/exchange/deploy/dub-declare-app.tar")
+ssh_8_109.run_cmd(
+    "chmod 777 /server/soft/exchange/deploy/dub-declare-app/dub-declare-app.sh")
+ssh_8_109.run_cmd(
+    "nohup /server/soft/exchange/deploy/dub-declare-app/dub-declare-app.sh 0100 > /server/soft/exchange/deploy/dub-declare-app/start.log 2>&1 &")
+
+#-----------------------客户应用------------------------
+
+ssh_8_109.close()
+"""

@@ -265,7 +265,11 @@ if __name__ == "__main__":
     datepath1 = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
     # 上传目录
     # my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明")
-    # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明")
-    my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明") # 测试数据
-    my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/数据库脚本")
+    # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/数据库脚本")
+
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, "/package/B-报关服务平台2.0/201129/部署说明")
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/201129/数据库脚本")
+
+    # my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明") # 测试数据
+    # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/2020-11-24", "/package/B-报关服务平台2.0/" + datepath1 + "/数据库脚本")
     my_ftp.close()
