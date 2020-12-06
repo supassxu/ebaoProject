@@ -2,7 +2,8 @@
 
 import paramiko
 
-host1 = {"host": "192.168.8.118", "port": 22, "username": "tester", "pwd": "t@987654321"}
+
+# host1 = {"host": "192.168.8.118", "port": 22, "username": "tester", "pwd": "t@987654321"}
 
 class SSHConnection(object):
 
@@ -80,36 +81,36 @@ ssh_8_109.connect()
 #-----------------------客户应用------------------------
 # ----------------------1、杀进程-------------------------
 ssh_8_109.run_cmd(
-    "ps -ef | grep dub-declare-app | grep -v grep | awk '{print $2}' | xargs kill -9")
+    "ps -ef | grep phx-operate-app | grep -v grep | awk '{print $2}' | xargs kill -9")
 
 print("进程已杀")
 # time.sleep(2)
-os.system("cd /root/.jenkins/workspace/DUB-V2.0\(dub-declare-app\)/dub-declare-app/target/ ;tar -cvf dub-declare-app.tar dub-declare-app;")
+os.system("cd /root/.jenkins/workspace/DUB-V2.0\(dub-phx-operate-app\)/phx-operate-service/target/ ;tar -cvf phx-operate-app.tar phx-operate-app;")
 print("tar包完成")
 # # ----------------------2、备份原来的包到/back目录下-------------------------
 
 # # 先在对应的tomcat目录下创建目录back
 ssh_8_109.run_cmd(
-    "\cp -rf /server/soft/exchange/deploy/dub-declare-app /server/soft/exchange/bak/")
+    "cp -rf /server/soft/exchange/deploy/phx-operate-app /server/soft/exchange/bak/")
 # # #----------------------3、删除包-------------------------
 ssh_8_109.run_cmd(
-    "rm -rf /server/soft/exchange/deploy/dub-declare-app")
+    "rm -rf /server/soft/exchange/deploy/phx-operate-app")
 # # ----------------------4、拷贝Jenkins服务器上的包到tomcat目录下-------------------------
 # # 由于FTP目录结构存在中文，需要在window资源管理器里打开FTP并复制路径
 
 ssh_8_109.upload(
-    "/root/.jenkins/workspace/DUB-V2.0(dub-declare-app)/dub-declare-app/target/dub-declare-app.tar".decode("utf-8"),
-    "/server/soft/exchange/deploy/dub-declare-app.tar".decode("utf-8"))
+    "/root/.jenkins/workspace/DUB-V2.0(dub-phx-operate-app)/phx-operate-service/target/phx-operate-app.tar".decode("utf-8"),
+    "/server/soft/exchange/deploy/phx-operate-app.tar".decode("utf-8"))
 
 
 ssh_8_109.run_cmd(
-    "cd /server/soft/exchange/deploy/;tar -xvf /server/soft/exchange/deploy/dub-declare-app.tar")
+    "cd /server/soft/exchange/deploy/;tar -xvf /server/soft/exchange/deploy/phx-operate-app.tar")
 ssh_8_109.run_cmd(
-    "rm -rf /server/soft/exchange/deploy/dub-declare-app.tar")
+    "rm -rf /server/soft/exchange/deploy/phx-operate-app.tar")
 ssh_8_109.run_cmd(
-    "chmod 777 /server/soft/exchange/deploy/dub-declare-app/dub-declare-app.sh")
+    "chmod 777 /server/soft/exchange/deploy/phx-operate-app/phx-operate-service.sh")
 ssh_8_109.run_cmd(
-    "nohup /server/soft/exchange/deploy/dub-declare-app/dub-declare-app.sh 0100 > /server/soft/exchange/deploy/dub-declare-app/start.log 2>&1 &")
+    "nohup /server/soft/exchange/deploy/phx-operate-app/phx-operate-service.sh 0100 > /server/soft/exchange/deploy/phx-operate-app/start.log 2>&1 &")
 
 #-----------------------客户应用------------------------
 
