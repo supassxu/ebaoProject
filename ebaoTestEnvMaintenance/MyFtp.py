@@ -263,11 +263,20 @@ if __name__ == "__main__":
     # my_ftp.upload_file("dub-manage-webapps.war", "/package/B-报关服务平台2.0/201127/dub-manage-webapps.war")
     datepath = datetime.datetime.now().strftime('%Y-%m-%d')
     datepath1 = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
-
+    desdir = "/package/B-报关服务平台2.0/" + datepath1 + "/"
+    try:
+        my_ftp.cwd(desdir + "部署说明")
+        my_ftp.cwd(desdir + "数据库脚本")
+        print("部署说明和数据库脚本" + ": 当日版本文件夹已存在")
+    except:
+        my_ftp.cwd(desdir)
+        my_ftp.mkd(desdir + "部署说明")
+        my_ftp.mkd(desdir + "数据库脚本")
+        print("部署说明和数据库脚本" + "：文件夹创建成功")
 
     # 上传目录
-    my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/部署说明")
-    # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/" + datepath1 + "/数据库脚本")
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, desdir + "部署说明")
+    my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, desdir + "数据库脚本")
 
     # my_ftp.upload_file_tree("E:/dub-docs/11配置/部署说明/" + datepath, "/package/B-报关服务平台2.0/201129/部署说明")
     # my_ftp.upload_file_tree("E:/dub-docs/11配置/数据库脚本/" + datepath, "/package/B-报关服务平台2.0/201129/数据库脚本")

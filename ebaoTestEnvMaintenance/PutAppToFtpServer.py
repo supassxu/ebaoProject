@@ -5,8 +5,6 @@ import numpy as np
 import paramiko
 
 
-# import SSHConnection
-
 class PutAppToFtpServer:
     """
     1、获取那些应用需要部署；
@@ -24,146 +22,121 @@ class PutAppToFtpServer:
     pwd = "t@987654321"
     # 存放包对应的服务器路径的数组
     app_dir = np.array([["dub-manage-webapps", "192.168.3.129",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_8038/webapps/dub-manage-webapps.war",
+                         "dub-manage-webapps.war"],
                         ["dub-webapps-yb", "192.168.8.27",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_webapps_yb/webapps/dub-webapps-yb.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_webapps_yb/webapps/dub-webapps-yb.war",
+                         "dub-webapps-yb.war"],
                         ["dub-dubbo-bill-check", "192.168.3.129",
-                         "/usr/local/tomcat/dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz"],
+                         "/usr/local/tomcat/dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz",
+                         "dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz"],
                         ["dub-openapi", "192.168.3.228",
-                         "/usr/local/tomcat/tomcat8_jdk1.8_8200_DUBAPI/webapps/dub-openapi.war"],
+                         "/usr/local/tomcat/tomcat8_jdk1.8_8200_DUBAPI/webapps/dub-openapi.war", "dub-openapi.war"],
                         ["dub-exchange", "192.168.3.228",
-                         "/usr/local/tomcat/dub-exchange/dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz"],
+                         "/usr/local/tomcat/dub-exchange/dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz",
+                         "dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz"],
                         ["dub-examine-north-webapp", "192.168.3.228",
-                         "/usr/local/tomcat/tomcat8_jdk1.8_8202_DUB_EXAMINE_CENTER/webapps/dub-examine-north-webapp.war"],
+                         "/usr/local/tomcat/tomcat8_jdk1.8_8202_DUB_EXAMINE_CENTER/webapps/dub-examine-north-webapp.war",
+                         "dub-examine-north-webapp.war"],
                         ["dub-upload", "192.168.3.228",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7204_UPLOAD/webapps/dub-upload.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7204_UPLOAD/webapps/dub-upload.war", "dub-upload.war"],
                         ["dub-webapps", "192.168.3.228",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7205_DUB_WEBAPPS/webapps/dub-webapps.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7205_DUB_WEBAPPS/webapps/dub-webapps.war",
+                         "dub-webapps.war"],
                         ["dub-baseparam-webapp", "192.168.3.228",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7206_BASEPARAM/webapps/dub-baseparam-webapp.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7206_BASEPARAM/webapps/dub-baseparam-webapp.war",
+                         "dub-baseparam-webapp.war"],
                         ["dub-receipt-handler", "192.168.3.228",
-                         "/usr/local/tomcat/dub-receipt-handler/dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz"],
+                         "/usr/local/tomcat/dub-receipt-handler/dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz",
+                         "dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz"],
                         ["dub-dleybsl-webapp", "192.168.8.27",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7200_dub_dleybsl_webapp/webapps/dub-dleybsl-webapp.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7200_dub_dleybsl_webapp/webapps/dub-dleybsl-webapp.war",
+                         "dub-dleybsl-webapp.war"],
                         ["dub-dlfreight-webapp", "192.168.8.27",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7201_dub_dlfreight_webapp/webapps/dub-dlfreight-webapp.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7201_dub_dlfreight_webapp/webapps/dub-dlfreight-webapp.war",
+                         "dub-dlfreight-webapp.war"],
                         ["dub-exchange-edl-webapp", "192.168.8.27",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7202_dub_exchange_edl_webapp/webapps/dub-exchange-edl-webapp.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7202_dub_exchange_edl_webapp/webapps/dub-exchange-edl-webapp.war",
+                         "dub-exchange-edl-webapp.war"],
                         ["dub-manifest-sz-tools-webapp", "192.168.8.64",
-                         "/usr/local/tomcat/dub-manifest-sz-tools-service/dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz"],
+                         "/usr/local/tomcat/dub-manifest-sz-tools-service/dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz",
+                         "dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz"],
                         ["dub-hezhu-webapp", "192.168.8.64",
-                         "/usr/local/tomcat/tomcat8_jdk1.8_8201_dub_hezhu_mutiproject_webapp/webapps/dub-hezhu-webapp.war"],
+                         "/usr/local/tomcat/tomcat8_jdk1.8_8201_dub_hezhu_mutiproject_webapp/webapps/dub-hezhu-webapp.war",
+                         "dub-hezhu-webapp.war"],
                         ["dub-manifest-sz-webapp", "192.168.8.64",
-                         "/usr/local/tomcat/tomcat8_jdk1.8_8200_dub_manifest_sz_mutiproject_webapp/webapps/dub-manifest-sz-webapp.war"],
+                         "/usr/local/tomcat/tomcat8_jdk1.8_8200_dub_manifest_sz_mutiproject_webapp/webapps/dub-manifest-sz-webapp.war",
+                         "dub-manifest-sz-webapp.war"],
                         ["dub-szeybsl-webapp", "192.168.8.64",
-                         "/usr/local/tomcat/tomcat8_jdk1.8_8202_dub-szeybsl/webapps/dub-szeybsl-webapp.war"],
+                         "/usr/local/tomcat/tomcat8_jdk1.8_8202_dub-szeybsl/webapps/dub-szeybsl-webapp.war",
+                         "dub-szeybsl-webapp.war"],
                         ["dub-exchange-esz-webapp", "192.168.8.64",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_exchange_eport_sz/webapps/dub-exchange-esz-webapp.war"],
-                        ["dub-front-end", "192.168.8.113", "/usr/local/tomcat/prod-dub-webapp-index/dist_sz.tar"],
-                        ["dub-front-end-nb", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-nb/dist_nb.tar"],
-                        ["dub-front-end-sh", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-sh/dist_sh.tar"],
-                        ["dub-front-end-dl", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-dl/dist_dl.tar"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7203_dub_exchange_eport_sz/webapps/dub-exchange-esz-webapp.war",
+                         "dub-exchange-esz-webapp.war"],
+                        ["dub-front-end", "192.168.8.113", "/usr/local/tomcat/prod-dub-webapp-index/dist_sz.tar",
+                         "dist_sz.tar"],
+                        ["dub-front-end-nb", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-nb/dist_nb.tar",
+                         "dist_nb.tar"],
+                        ["dub-front-end-sh", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-sh/dist_sh.tar",
+                         "dist_sh.tar"],
+                        ["dub-front-end-dl", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-dl/dist_dl.tar",
+                         "dist_sh.tar"],
                         ["phx-operate-front", "192.168.8.113",
-                         "/usr/local/tomcat/prod-phx-operate-front/phx-operate-front.tar"],
-                        ["phx-operate-app", "192.168.8.109", "/server/soft/exchange/deploy/phx-operate-app/"],
-                        ["dub-finance-app", "192.168.8.27", "/server/soft/exchange/deploy/dub-finance-app/"],
+                         "/usr/local/tomcat/prod-phx-operate-front/phx-operate-front.tar", "phx-operate-front.tar"],
+                        ["phx-operate-app", "192.168.8.109", "/server/soft/exchange/deploy/phx-operate-app/",
+                         "phx-operate-app.tar"],
+                        ["dub-finance-app", "192.168.8.27", "/server/soft/exchange/deploy/dub-finance-app/",
+                         "dub-finance-app.tar"],
                         ["dub-import-controller-app", "192.168.8.94",
-                         "/server/soft/exchange/deploy/dub-import-controller-app/"],
+                         "/server/soft/exchange/deploy/dub-import-controller-app/", "dub-import-controller-app.tar"],
                         ["dub-import-declare-app", "192.168.8.94",
-                         "/server/soft/exchange/deploy/dub-import-declare-app/"],
-                        ["dub-knowledge-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-knowledge-app/"],
+                         "/server/soft/exchange/deploy/dub-import-declare-app/", "dub-import-declare-app.tar"],
+                        ["dub-knowledge-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-knowledge-app/",
+                         "dub-knowledge-app.tar"],
                         ["dub-custom-receipt-app", "192.168.8.94",
-                         "/server/soft/exchange/deploy/dub-custom-receipt-app/"],
-                        ["dub-customer-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-customer-app/"],
-                        ["dub-declare-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-declare-app/"],
+                         "/server/soft/exchange/deploy/dub-custom-receipt-app/", "dub-custom-receipt-app.tar"],
+                        ["dub-customer-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-customer-app/",
+                         "dub-customer-app.tar"],
+                        ["dub-declare-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-declare-app/",
+                         "dub-declare-app.tar"],
                         ["dub-declare-controller", "192.168.8.109",
-                         "/server/soft/exchange/deploy/dub-declare-controller/"],
-                        ["dub-declare-qd-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-declare-qd-app/"],
-                        ["dub-urule-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-urule-app/"],
+                         "/server/soft/exchange/deploy/dub-declare-controller/", "dub-declare-controller.tar"],
+                        ["dub-declare-qd-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-declare-qd-app/",
+                         "dub-declare-qd-app.tar"],
+                        ["dub-urule-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-urule-app/",
+                         "dub-urule-app.tar"],
                         ["dub-bill-distribution-app", "192.168.8.109",
-                         "/server/soft/exchange/deploy/dub-bill-distribution-app/"],
-                        ["dub-param-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-param-app/"],
+                         "/server/soft/exchange/deploy/dub-bill-distribution-app/", "dub-bill-distribution-app.tar"],
+                        ["dub-param-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-param-app/",
+                         "dub-param-app.tar"],
                         ["dub-declare-aeo-controller", "192.168.8.12",
-                         "/server/soft/exchange/deploy/dub-declare-aeo-controller/"],
-                        ["dub_declare-aeo-service", "192.168.8.12",
-                         "/server/soft/exchange/deploy/dub-declare-aeo-service/"],
-                        ["dub-exchange-aliyun", "192.168.8.27", "/server/soft/exchange/deploy/dub-exchange-aliyun/"],
+                         "/server/soft/exchange/deploy/dub-declare-aeo-controller/", "dub-declare-aeo-controller.tar"],
+                        ["dub-declare-aeo-service", "192.168.8.12",
+                         "/server/soft/exchange/deploy/dub-declare-aeo-service/", "dub-declare-aeo-service.tar"],
+                        ["dub-exchange-aliyun", "192.168.8.27", "/server/soft/exchange/deploy/dub-exchange-aliyun/",
+                         "dub-exchange-aliyun.tar"],
                         ["dub-exchange-eport-qd", "192.168.8.109",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7200_dub_exchange_eqd_webapp/webapps/dub-exchange-eqd-webapp.war"],
-                        ["dub-flow-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-flow-app/"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7200_dub_exchange_eqd_webapp/webapps/dub-exchange-eqd-webapp.war",
+                         "dub-exchange-eqd-webapp.war"],
+                        ["dub-flow-app", "192.168.8.94", "/server/soft/exchange/deploy/dub-flow-app/",
+                         "dub-flow-app.tar"],
                         ["dub-mobile", "192.168.3.129",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7205_dub_mobile/webapps/dub-mobile.war"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7205_dub_mobile/webapps/dub-mobile.war", "dub-mobile.war"],
                         ["dub-points-webapp", "192.168.3.129",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_7209_dub_points/webapps/dub-points-webapp.war"],
-                        ["dub-webapp-datas", "192.168.8.113", "/usr/local/tomcat/prod-dub-webapp-datas/dist_datas.tar"],
-                        ["dub-portal-html", "192.168.3.129", "/usr/local/static/dub-portal-html/dist_menhu.tar"],
+                         "/usr/local/tomcat/tomcat7_jdk1.7_7209_dub_points/webapps/dub-points-webapp.war",
+                         "dub-points-webapp.war"],
+                        ["dub-webapp-datas", "192.168.3.129", "/usr/local/tomcat/prod-dub-webapp-datas/dist_datas.tar",
+                         "dist_datas.tar"],
+                        ["dub-portal-html", "192.168.3.129", "/usr/local/static/dub-portal-html/dist_menhu.tar",
+                         "dist_menhu.tar"],
                         ["dub-portal-webapp", "192.168.3.129",
-                         "/usr/local/tomcat/tomcat7_jdk1.7_8088/webapps/dub-portal-webapp.war"],
-                        ["dub-dfs", "192.168.8.27", "/usr/local/tomcat/dfs-service-7210/dfs-service-1.0.0-SNAPSHOT.jar"]
+                         "/usr/local/tomcat/tomcat7_jdk1.7_8088/webapps/dub-portal-webapp.war",
+                         "dub-portal-webapp.war"],
+                        ["dub-dfs", "192.168.8.27", "/usr/local/tomcat/dfs-service-7210/dfs-service-1.0.0-SNAPSHOT.jar",
+                         "dfs-service-1.0.0-SNAPSHOT.jar"],
+                        ["dub-user-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-user-app/",
+                         "dub-user-app.tar"],
                         ])
-    # FTP服务器上存放线上包地址
-    app_desdir = np.array(
-        [["dub-manage-webapps", "dub-manage-webapps.war", desdir + "dub-manage-webapps/dub-manage-webapps.war"],
-         ["dub-webapps-yb", "dub-webapps-yb.war", desdir + "dub-webapps-yb/dub-webapps-yb.war"],
-         ["dub-dubbo-bill-check", "dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz",
-          desdir + "dub-dubbo-bill-check/dub-dubbo-bill-check-1.0.1-SNAPSHOT-assembly.tar.gz"],
-         ["dub-openapi", "dub-openapi.war", desdir + "dub-openapi/dub-openapi.war"],
-         ["dub-exchange", "dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz",
-          desdir + "dub-exchange/dub-exchange-1.0.1-SNAPSHOT-assembly.tar.gz"],
-         ["dub-examine-north-webapp", "dub-examine-north-webapp.war",
-          desdir + "dub-examine-north-webapp/dub-examine-north-webapp.war"],
-         ["dub-upload", "dub-upload.war", desdir + "dub-upload/dub-upload.war"],
-         ["dub-webapps", "dub-webapps.war", desdir + "dub-webapps/dub-webapps.war"],
-         ["dub-baseparam-webapp", "dub-baseparam-webapp.war", desdir + "dub-baseparam-webapp/dub-baseparam-webapp.war"],
-         ["dub-receipt-handler", "dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz",
-          desdir + "dub-receipt-handler/dub-receipt-handler-1.0.1-SNAPSHOT-assembly.tar.gz"],
-         ["dub-dleybsl-webapp", "dub-dleybsl-webapp.war", desdir + "dub-dleybsl-webapp/dub-dleybsl-webapp.war"],
-         ["dub-manifest-sz-tools-webapp", "dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz",
-          desdir + "dub-manifest-sz-tools/dub-manifest-sz-tools-service-1.0.1-SNAPSHOT-assembly.tar.gz"],
-         ["dub-hezhu-webapp", "dub-hezhu-webapp.war", desdir + "dub-hezhu-webapp/dub-hezhu-webapp.war"],
-         ["dub-manifest-sz-webapp", "dub-manifest-sz-webapp.war",
-          desdir + "dub-manifest-sz-webapp/dub-manifest-sz-webapp.war"],
-         ["dub-szeybsl-webapp", "dub-szeybsl-webapp.war", desdir + "dub-szeybsl-webapp/dub-szeybsl-webapp.war"],
-         ["dub-exchange-esz-webapp", "dub-exchange-esz-webapp.war",
-          desdir + "dub-exchange-esz-webapp/dub-exchange-esz-webapp.war"],
-         ["dub-front-end", "dist_sz.tar", desdir + "dub-front-end/dist_sz.tar"],
-         ["dub-front-end-nb", "dist_sh.tar", desdir + "dub-front-end/dist_nb.tar"],
-         ["dub-front-end-sh", "dist_sh.tar", desdir + "dub-front-end/dist_sh.tar"],
-         ["dub-front-end-dl", "dist_sh.tar", desdir + "dub-front-end/dist_dl.tar"],
-         ["phx-operate-front", "phx-operate-front.tar", desdir + "phx-operate-front/phx-operate-front.tar"],
-         ["phx-operate-app", "phx-operate-app.tar", desdir + "phx-operate-app/phx-operate-app.tar"],
-         ["dub-finance-app", "dub-finance-app.tar", desdir + "dub-finance-app/phx-finance-app.tar"],
-         ["dub-import-controller-app", "dub-import-controller-app.tar",
-          desdir + "dub-import-controller-app/dub-import-controller-app.tar"],
-         ["dub-import-declare-app", "dub-import-declare-app.tar",
-          desdir + "dub-import-declare-app/dub-import-declare-app.tar"],
-         ["dub-knowledge-app", "dub-knowledge-app.tar", desdir + "dub-knowledge-app/dub-knowledge-app.tar"],
-         ["dub-custom-receipt-app", "dub-custom-receipt-app.tar",
-          desdir + "dub-custom-receipt-app/dub-custom-receipt-app.tar"],
-         ["dub-customer-app", "dub-customer-app.tar", desdir + "dub-customer-app/dub-customer-app.tar"],
-         ["dub-declare-app", "dub-declare-app.tar", desdir + "dub-declare-app/dub-declare-app.tar"],
-         ["dub-declare-controller", "dub-declare-controller.tar", desdir + "phx-operate-app/phx-operate-app.tar"],
-         ["dub-declare-qd-app", "dub-declare-qd-app.tar", desdir + "dub-declare-qd-app/dub-declare-qd-app.tar"],
-         ["dub-urule-app", "dub-urule-app.tar", desdir + "dub-urule-app/dub-urule-app.tar"],
-         ["dub-bill-distribution-app", "dub-bill-distribution-app.tar",
-          desdir + "dub-bill-distribution-app/dub-bill-distribution-app.tar"],
-         ["dub-param-app", "dub-param-app.tar", desdir + "dub-param-app/dub-param-app.tar"],
-         ["dub-declare-aeo-controller", "dub-declare-aeo-controller.tar",
-          desdir + "dub-declare-aeo-controller/dub-declare-aeo-controller.tar"],
-         ["dub_declare-aeo-service", "dub_declare-aeo-service.tar",
-          desdir + "dub_declare-aeo-service/dub_declare-aeo-service.tar"],
-         ["dub-exchange-aliyun", "dub-exchange-aliyun.tar", desdir + "dub-exchange-aliyun/dub-exchange-aliyun.tar"],
-         ["dub-exchange-eport-qd", "dub-exchange-eqd-webapp.war",
-          desdir + "dub-exchange-eport-qd/dub-exchange-eqd-webapp.war"],
-         ["dub-flow-app", "dub-flow-app.tar", desdir + "dub-flow-app/dub-flow-app.tar"],
-         ["dub-mobile", "dub-mobile.war", desdir + "dub-mobile/dub-mobile.war"],
-         ["dub-points-webapp", "dub-points-webapp.war", desdir + "dub-points-webapp/dub-points-webapp.war"],
-         ["dub-webapp-datas", "dist_datas.tar", desdir + "dub-webapp-datas/dist_datas.tar"],
-         ["dub-portal-html", "dist_menhu.tar", desdir + "dub-portal-html/dist_menhu.tar"],
-         ["dub-portal-webapp", "dub-param-app.tar", desdir + "dub-portal-webapp/dub-portal-webapp.war"],
-         ["dub-dfs", "dfs-service-1.0.0-SNAPSHOT.jar", desdir + "dub-dfs/dfs-service-1.0.0-SNAPSHOT.jar"],
-         ["dub-dlfreight-webapp", "dub-dlfreight-webapp.war", desdir + "dub-dlfreight-webapp/dub-dlfreight-webapp.war"]
-         ])
 
     def __init__(self, app_list):
         self.app_list = app_list
@@ -174,11 +147,12 @@ class PutAppToFtpServer:
                 ssh_x = PutAppToFtpServer.SSHConnection(
                     {"host": app_dir[i][1], "port": 22, "username": "tester", "pwd": "t@987654321"})
                 ssh_x.connect()
+                print("应用应用" + app_dir[i][0] + "开始拷贝中；")
                 if (app_dir[i][0] == "dub-manage-webapps" or app_dir[i][0] == "dub-webapps-yb" or app_dir[i][0] ==
                         "dub-dubbo-bill-check" or app_dir[i][0] == "dub-openapi" or app_dir[i][0] == "dub-exchange" or
-                        app_dir[i][0] == "dub-examine-north-webapp" or app_dir[i][0] == "dub-upload" or app_dir[i][0] ==
-                        "dub-webapps" or app_dir[i][0] == "dub-baseparam-webapp" or app_dir[i][
-                            0] == "dub-receipt-handler"
+                        app_dir[i][0] == "dub-examine-north-webapp" or app_dir[i][0] == "dub-upload"
+                        or app_dir[i][0] == "dub-webapps" or app_dir[i][0] == "dub-baseparam-webapp"
+                        or app_dir[i][0] == "dub-receipt-handler" or app_dir[i][0] == "dub-manifest-sz-tools-webapp"
                         or app_dir[i][0] == "dub-dleybsl-webapp" or app_dir[i][0] == "dub-dlfreight-webapp" or
                         app_dir[i][0] == "dub-exchange-edl-webapp" or app_dir[i][0] == "dub-manifest-sz-tools" or
                         app_dir[i][0] == "dub-hezhu-webapp" or app_dir[i][0] == "dub-manifest-sz-webapp" or
@@ -188,32 +162,27 @@ class PutAppToFtpServer:
                         app_dir[i][0] == "phx-operate-front" or app_dir[i][0] == "dub-exchange-eport-qd" or
                         app_dir[i][0] == "dub-mobile" or app_dir[i][0] == "dub-points-webapp" or
                         app_dir[i][0] == "dub-webapp-datas" or app_dir[i][0] == "dub-portal-html" or
-                        app_dir[i][0] == "dub-portal-webapp" or app_dir[i][0] == "dub-dfs" or
-                        app_dir[i][0] == "dub-manifest-sz-tools-webapp"):
+                        app_dir[i][0] == "dub-portal-webapp" or app_dir[i][0] == "dub-dfs"):
                     app_local_dir = localdir + app_dir[i][2].split('/')[-1]
-                    print("应用应用" + app_dir[i][0] + "开始拷贝中；")
                     ssh_x.run_cmd("ls -lh " + app_dir[i][2])
                     ssh_x.download(app_dir[i][2], app_local_dir)
-                    ssh_x.close()
-                    print("应用应用" + app_dir[i][0] + "拷贝到本地路径成功；")
                 else:
-                    print("应用应用" + app_dir[i][0] + "开始拷贝中；")
                     ssh_x.run_cmd("cd " + app_dir[i][2] + ";ls -lh;tar -cvf " + app_dir[i][0] + ".tar lib *.sh;")
                     ssh_x.download(app_dir[i][2] + app_dir[i][0] + ".tar", localdir + app_dir[i][0] + ".tar")
                     ssh_x.run_cmd("cd " + app_dir[i][2] + ";rm -rf " + app_dir[i][0] + ".tar;")
-                    ssh_x.close()
-                    print("应用应用" + app_dir[i][0] + "拷贝到本地路径成功；")
+                ssh_x.close()
+                print("应用应用" + app_dir[i][0] + "拷贝到本地路径成功；")
 
     def FtpMkdirfolder(self, ftp, app_list1):
         try:
             ftp.cwd(desdir)
-            ftp.mkd("部署说明")
-            ftp.mkd("数据库脚本")
+            # ftp.mkd("部署说明")
+            # ftp.mkd("数据库脚本")
             print("当日版本文件夹已存在，部署说明和数据库脚本文件夹创建成功")
         except:
             ftp.mkd(desdir)
-            ftp.mkd("部署说明")
-            ftp.mkd("数据库脚本")
+            # ftp.mkd("部署说明")
+            # ftp.mkd("数据库脚本")
             print("当日版本文件夹已创建成功，部署说明和数据库脚本文件夹创建成功")
             ftp.cwd(desdir)
         for app in app_list1:
@@ -226,11 +195,11 @@ class PutAppToFtpServer:
         print("当日版本所有文件夹创建成功")
 
     def CopyAppToFtp(self, app_list2, app):
-        for i in range(app_desdir.shape[0]):
+        for i in range(app.shape[0]):
             if app[i][0] in app_list2:
-                print("开始上传应用包：" + app[i][1])
-                self.FtpUpload(localdir + app[i][1], desdir + app[i][0] + "/" + app[i][1])
-                print("应用包：" + app[i][1] + "上传成功")
+                print("开始上传应用包：" + app[i][3])
+                self.FtpUpload(localdir + app[i][3], desdir + app[i][0] + "/" + app[i][3])
+                print("应用包：" + app[i][3] + "上传成功")
 
     def FtpUpload(self, appdir, desdir1):
         # ftp.getwelcome()  # 返回欢迎信息
@@ -296,18 +265,13 @@ class PutAppToFtpServer:
         def __del__(self):
             self.close()
 
-
 if __name__ == '__main__':
     ftp = FTP()  # FTP对象
     ftp.encoding = "gbk"
     ftp.set_debuglevel(0)  # 打开调试级别2，显示详细信息
     ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
     ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
-    app_list = ["dub-webapps", "dub-openapi", "dub-webapps-yb", "dub-hezhu-webapp", "dub-manage-webapps",
-                "dub-examine-north-webapp", "dub-manifest-sz-tools-webapp", "dub-manifest-sz-webapp",
-                "dub-declare-controller", "dub-szeybsl-webapp", "dub-declare-qd-app", "dub-dleybsl-webapp",
-                "phx-operate-app", "dub-import-declare-app", "dub-finance-app", "dub-import-controller-app",
-                "dub-front-end", "dub-front-end-nb", "dub-front-end-sh", "dub-front-end-dl", "phx-operate-front"]
+
     """all_app_list = ["dub-manage-webapps","dub-webapps-yb","dub-dubbo-bill-check","dub-openapi","dub-exchange",
                     "dub-examine-north-webapp","dub-upload","dub-webapps","dub-baseparam-webapp","dub-receipt-handler",
                     "dub-dleybsl-webapp","dub-dlfreight-webapp","dub-exchange-edl-webapp",
@@ -316,25 +280,14 @@ if __name__ == '__main__':
                     "phx-operate-front","phx-operate-app","dub-finance-app","dub-import-controller-app",
                     "dub-import-declare-app","dub-knowledge-app","dub-custom-receipt-app","dub-customer-app",
                     "dub-declare-app","dub-declare-controller","dub-declare-qd-app","dub-urule-app",
-                    "dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub_declare-aeo-service",
+                    "dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub-declare-aeo-service",
                     "dub-exchange-aliyun","dub-exchange-eport-qd","dub-flow-app","dub-mobile","dub-points-webapp",
                     "dub-webapp-datas","dub-portal-html","dub-portal-webapp","dub-dfs"] """
-    all_app_execpt_one_list = ["dub-manage-webapps","dub-webapps-yb","dub-dubbo-bill-check","dub-openapi","dub-exchange",
-                    "dub-examine-north-webapp","dub-upload","dub-webapps","dub-baseparam-webapp","dub-receipt-handler",
-                    "dub-dleybsl-webapp","dub-dlfreight-webapp","dub-exchange-edl-webapp",
-                    "dub-manifest-sz-tools-webapp","dub-hezhu-webapp","dub-manifest-sz-webapp","dub-szeybsl-webapp",
-                    "dub-exchange-esz-webapp","dub-front-end","dub-front-end-nb","dub-front-end-sh","dub-front-end-dl",
-                    "phx-operate-front","phx-operate-app","dub-finance-app","dub-import-controller-app",
-                    "dub-import-declare-app","dub-knowledge-app","dub-custom-receipt-app","dub-customer-app",
-                    "dub-declare-app","dub-declare-controller","dub-declare-qd-app","dub-urule-app",
-                    "dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub_declare-aeo-service",
-                    "dub-exchange-aliyun","dub-exchange-eport-qd","dub-flow-app","dub-mobile","dub-points-webapp",
-                    "dub-portal-html","dub-portal-webapp","dub-dfs"]
-    # app_test_list = ["dub-dubbo-bill-check", "dub-exchange", "dub-upload", "dub-baseparam-webapp", "dub-receipt-handler", "dub-exchange-edl-webapp", "dub-exchange-esz-webapp", "dub-knowledge-app", "dub-custom-receipt-app", "dub-customer-app", "dub-declare-app", "dub-urule-app","dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub_declare-aeo-service","dub-exchange-aliyun","dub-exchange-eport-qd","dub-flow-app","dub-mobile","dub-points-webapp","dub-portal-html","dub-portal-webapp","dub-dfs"]
 
-    p = PutAppToFtpServer(all_app_execpt_one_list)
-    p.CopyAppToLocal(app_dir)
-    p.FtpMkdirfolder(ftp, all_app_execpt_one_list)
-    p.CopyAppToFtp(all_app_execpt_one_list, app_desdir)
+    app_list_test = ["dub-finance-app", "dub-import-controller-app", "dub-import-declare-app", "dub-declare-aeo-controller", "dub-declare-aeo-service", "dub-declare-app", "dub-declare-qd-app", "dub-szeybsl-webapp", "dub-front-end", "dub-front-end-nb", "dub-hezhu-webapp", "dub-webapp-datas", "dub-baseparam-webapp", "dub-user-app", "dub-declare-controller", "dub-front-end-sh"]
+    p = PutAppToFtpServer(app_list_test)
+    #p.CopyAppToLocal(app_dir)
+    #p.FtpMkdirfolder(ftp, app_list_test)
+    p.CopyAppToFtp(app_list_test, app_dir)
     ftp.close()
     print("应用从测试环境发送到FTP服务器（192.168.1.59）机器成功，请核对相应的应用存放情况！")
