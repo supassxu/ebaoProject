@@ -3,7 +3,7 @@ import datetime
 from ftplib import FTP
 import numpy as np
 import paramiko
-
+import sys
 
 class PutAppToFtpServer:
     """
@@ -13,9 +13,9 @@ class PutAppToFtpServer:
     4、把获取到的应用分发到FTP服务器上；
     """
     global desdir, port, username, pwd, localdir, ftp, app_dir, app_desdir
-    # datepath = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
-    # desdir = "/package/B-报关服务平台2.0/" + datepath + "/"
-    desdir = "/package/B-报关服务平台2.0/201129/"
+    datepath = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
+    desdir = "/package/B-报关服务平台2.0/" + datepath + "/"
+    # desdir = "/package/B-报关服务平台2.0/201129/"
     localdir = "/home/workspace/Application/"
     port = 22
     username = "tester"
@@ -173,24 +173,20 @@ class PutAppToFtpServer:
                 ssh_x.close()
                 print("应用应用" + app_dir[i][0] + "拷贝到本地路径成功；")
 
-    def FtpMkdirfolder(self, ftp, app_list1):
+    def FtpMkdirfolder(self, myftp, app_list1):
         try:
-            ftp.cwd(desdir)
-            # ftp.mkd("部署说明")
-            # ftp.mkd("数据库脚本")
-            print("当日版本文件夹已存在，部署说明和数据库脚本文件夹创建成功")
+            myftp.cwd(desdir)
+            print("当日版本文件夹已存在")
         except:
-            ftp.mkd(desdir)
-            # ftp.mkd("部署说明")
-            # ftp.mkd("数据库脚本")
-            print("当日版本文件夹已创建成功，部署说明和数据库脚本文件夹创建成功")
-            ftp.cwd(desdir)
+            myftp.mkd(desdir)
+            print("当日版本文件夹已创建成功")
+            myftp.cwd(desdir)
         for app in app_list1:
             try:
-                ftp.cwd(desdir + str(app))
+                myftp.cwd(desdir + str(app))
                 print(str(app) + ": 当日版本文件夹已存在")
             except:
-                ftp.mkd(app)
+                myftp.mkd(app)
                 print(str(app) + "：文件夹创建成功")
         print("当日版本所有文件夹创建成功")
 
@@ -267,28 +263,19 @@ class PutAppToFtpServer:
 
 if __name__ == '__main__':
     print("请核对是否今天版本的所有发布包都已经是构建到最新了；前端打线上包，后端打一套环境包！")
-    ftp = FTP()  # FTP对象
-    ftp.encoding = "gbk"
-    ftp.set_debuglevel(0)  # 打开调试级别2，显示详细信息
-    ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
-    ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
+    app_list_test = sys.argv[1].strip('\"').split(',')
 
-    """all_app_list = ["dub-manage-webapps","dub-webapps-yb","dub-dubbo-bill-check","dub-openapi","dub-exchange",
-                    "dub-examine-north-webapp","dub-upload","dub-webapps","dub-baseparam-webapp","dub-receipt-handler",
-                    "dub-dleybsl-webapp","dub-dlfreight-webapp","dub-exchange-edl-webapp",
-                    "dub-manifest-sz-tools-webapp","dub-hezhu-webapp","dub-manifest-sz-webapp","dub-szeybsl-webapp",
-                    "dub-exchange-esz-webapp","dub-front-end","dub-front-end-nb","dub-front-end-sh","dub-front-end-dl",
-                    "phx-operate-front","phx-operate-app","dub-finance-app","dub-import-controller-app",
-                    "dub-import-declare-app","dub-knowledge-app","dub-custom-receipt-app","dub-customer-app",
-                    "dub-declare-app","dub-declare-controller","dub-declare-qd-app","dub-urule-app",
-                    "dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub-declare-aeo-service",
-                    "dub-exchange-aliyun","dub-exchange-eport-qd","dub-flow-app","dub-mobile","dub-points-webapp",
-                    "dub-webapp-datas","dub-portal-html","dub-portal-webapp","dub-dfs"] """
-
-    app_list_test = ["dub-finance-app", "dub-import-controller-app", "dub-import-declare-app", "dub-declare-aeo-controller", "dub-declare-aeo-service", "dub-declare-app", "dub-declare-qd-app", "dub-szeybsl-webapp", "dub-front-end", "dub-front-end-nb", "dub-hezhu-webapp", "dub-webapp-datas", "dub-baseparam-webapp", "dub-user-app", "dub-declare-controller", "dub-front-end-sh"]
-    p = PutAppToFtpServer(app_list_test)
-    #p.CopyAppToLocal(app_dir)
-    #p.FtpMkdirfolder(ftp, app_list_test)
-    p.CopyAppToFtp(app_list_test, app_dir)
-    ftp.close()
-    print("应用从测试环境发送到FTP服务器（192.168.1.59）机器成功，请核对相应的应用存放情况！")
+    if len(app_list_test) == 0:
+        print("未勾选任何应用，无法拷贝版本应用到ftp服务器！")
+    else:
+        p = PutAppToFtpServer(app_list_test)
+        p.CopyAppToLocal(app_dir)
+        ftp = FTP()  # FTP对象
+        ftp.encoding = "gbk"
+        ftp.set_debuglevel(0)  # 打开调试级别2，显示详细信息
+        ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
+        ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
+        p.FtpMkdirfolder(ftp, app_list_test)
+        p.CopyAppToFtp(app_list_test, app_dir)
+        ftp.close()
+        print("应用从测试环境发送到FTP服务器（192.168.1.59）机器成功，请核对相应的应用存放情况！")
