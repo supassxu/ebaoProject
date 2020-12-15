@@ -264,14 +264,19 @@ if __name__ == "__main__":
     datepath = datetime.datetime.now().strftime('%Y-%m-%d')
     datepath1 = datetime.datetime.now().strftime('%y-%m-%d').replace('-', '')
     desdir = "/package/B-报关服务平台2.0/" + datepath1 + "/"
+    ftp = FTP()  # FTP对象
+    ftp.encoding = "gbk"
+    ftp.set_debuglevel(0)  # 打开调试级别2，显示详细信息
+    ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
+    ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
     try:
-        my_ftp.cwd(desdir + "部署说明")
-        my_ftp.cwd(desdir + "数据库脚本")
+        ftp.cwd(desdir + "部署说明")
+        ftp.cwd(desdir + "数据库脚本")
         print("部署说明和数据库脚本" + ": 当日版本文件夹已存在")
     except:
-        my_ftp.cwd(desdir)
-        my_ftp.mkd(desdir + "部署说明")
-        my_ftp.mkd(desdir + "数据库脚本")
+        ftp.cwd(desdir)
+        ftp.mkd(desdir + "部署说明")
+        ftp.mkd(desdir + "数据库脚本")
         print("部署说明和数据库脚本" + "：文件夹创建成功")
 
     # 上传目录
