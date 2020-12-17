@@ -82,7 +82,7 @@ class PutAppToFtpServer:
                         ["dub-front-end-dl", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-dl/dist_dl.tar",
                          "dist_sh.tar"],
                         ["phx-operate-front", "192.168.8.113",
-                         "/usr/local/tomcat/prod-phx-operate-front/phx-operate-front.tar", "phx-operate-front.tar"],
+                         "/usr/local/tomcat/prod-phx-operate-front/dist_phx_prod.tar", "dist_phx_prod.tar"],
                         ["phx-operate-app", "192.168.8.109", "/server/soft/exchange/deploy/phx-operate-app/",
                          "phx-operate-app.tar"],
                         ["dub-finance-app", "192.168.8.27", "/server/soft/exchange/deploy/dub-finance-app/",
@@ -148,21 +148,7 @@ class PutAppToFtpServer:
                     {"host": app_dir[i][1], "port": 22, "username": "tester", "pwd": "t@987654321"})
                 ssh_x.connect()
                 print("应用应用" + app_dir[i][0] + "开始拷贝中；")
-                if (app_dir[i][0] == "dub-manage-webapps" or app_dir[i][0] == "dub-webapps-yb" or app_dir[i][0] ==
-                        "dub-dubbo-bill-check" or app_dir[i][0] == "dub-openapi" or app_dir[i][0] == "dub-exchange" or
-                        app_dir[i][0] == "dub-examine-north-webapp" or app_dir[i][0] == "dub-upload"
-                        or app_dir[i][0] == "dub-webapps" or app_dir[i][0] == "dub-baseparam-webapp"
-                        or app_dir[i][0] == "dub-receipt-handler" or app_dir[i][0] == "dub-manifest-sz-tools-webapp"
-                        or app_dir[i][0] == "dub-dleybsl-webapp" or app_dir[i][0] == "dub-dlfreight-webapp" or
-                        app_dir[i][0] == "dub-exchange-edl-webapp" or app_dir[i][0] == "dub-manifest-sz-tools" or
-                        app_dir[i][0] == "dub-hezhu-webapp" or app_dir[i][0] == "dub-manifest-sz-webapp" or
-                        app_dir[i][0] == "dub-szeybsl-webapp" or app_dir[i][0] == "dub-exchange-esz-webapp" or
-                        app_dir[i][0] == "dub-front-end" or app_dir[i][0] == "dub-front-end-nb" or
-                        app_dir[i][0] == "dub-front-end-sh" or app_dir[i][0] == "dub-front-end-dl" or
-                        app_dir[i][0] == "phx-operate-front" or app_dir[i][0] == "dub-exchange-eport-qd" or
-                        app_dir[i][0] == "dub-mobile" or app_dir[i][0] == "dub-points-webapp" or
-                        app_dir[i][0] == "dub-webapp-datas" or app_dir[i][0] == "dub-portal-html" or
-                        app_dir[i][0] == "dub-portal-webapp" or app_dir[i][0] == "dub-dfs"):
+                if app_dir[i][2][-1] != "/":
                     app_local_dir = localdir + app_dir[i][2].split('/')[-1]
                     ssh_x.run_cmd("ls -lh " + app_dir[i][2])
                     ssh_x.download(app_dir[i][2], app_local_dir)

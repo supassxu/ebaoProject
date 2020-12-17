@@ -82,7 +82,7 @@ class PutAppToFtpServer:
                         ["dub-front-end-dl", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-dl/dist_dl.tar",
                          "dist_sh.tar"],
                         ["phx-operate-front", "192.168.8.113",
-                         "/usr/local/tomcat/prod-phx-operate-front/phx-operate-front.tar", "phx-operate-front.tar"],
+                         "/usr/local/tomcat/prod-phx-operate-front/dist_phx_prod.tar", "dist_phx_prod.tar"],
                         ["phx-operate-app", "192.168.8.109", "/server/soft/exchange/deploy/phx-operate-app/",
                          "phx-operate-app.tar"],
                         ["dub-finance-app", "192.168.8.27", "/server/soft/exchange/deploy/dub-finance-app/",
@@ -148,21 +148,7 @@ class PutAppToFtpServer:
                     {"host": app_dir[i][1], "port": 22, "username": "tester", "pwd": "t@987654321"})
                 ssh_x.connect()
                 print("应用应用" + app_dir[i][0] + "开始拷贝中；")
-                if (app_dir[i][0] == "dub-manage-webapps" or app_dir[i][0] == "dub-webapps-yb" or app_dir[i][0] ==
-                        "dub-dubbo-bill-check" or app_dir[i][0] == "dub-openapi" or app_dir[i][0] == "dub-exchange" or
-                        app_dir[i][0] == "dub-examine-north-webapp" or app_dir[i][0] == "dub-upload"
-                        or app_dir[i][0] == "dub-webapps" or app_dir[i][0] == "dub-baseparam-webapp"
-                        or app_dir[i][0] == "dub-receipt-handler" or app_dir[i][0] == "dub-manifest-sz-tools-webapp"
-                        or app_dir[i][0] == "dub-dleybsl-webapp" or app_dir[i][0] == "dub-dlfreight-webapp" or
-                        app_dir[i][0] == "dub-exchange-edl-webapp" or app_dir[i][0] == "dub-manifest-sz-tools" or
-                        app_dir[i][0] == "dub-hezhu-webapp" or app_dir[i][0] == "dub-manifest-sz-webapp" or
-                        app_dir[i][0] == "dub-szeybsl-webapp" or app_dir[i][0] == "dub-exchange-esz-webapp" or
-                        app_dir[i][0] == "dub-front-end" or app_dir[i][0] == "dub-front-end-nb" or
-                        app_dir[i][0] == "dub-front-end-sh" or app_dir[i][0] == "dub-front-end-dl" or
-                        app_dir[i][0] == "phx-operate-front" or app_dir[i][0] == "dub-exchange-eport-qd" or
-                        app_dir[i][0] == "dub-mobile" or app_dir[i][0] == "dub-points-webapp" or
-                        app_dir[i][0] == "dub-webapp-datas" or app_dir[i][0] == "dub-portal-html" or
-                        app_dir[i][0] == "dub-portal-webapp" or app_dir[i][0] == "dub-dfs"):
+                if app_dir[i][2][-1] != "/":
                     app_local_dir = localdir + app_dir[i][2].split('/')[-1]
                     ssh_x.run_cmd("ls -lh " + app_dir[i][2])
                     ssh_x.download(app_dir[i][2], app_local_dir)
@@ -273,7 +259,7 @@ if __name__ == '__main__':
     ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
     ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
 
-    """all_app_list = ["dub-manage-webapps","dub-webapps-yb","dub-dubbo-bill-check","dub-openapi","dub-exchange",
+    '''all_app_list = ["dub-manage-webapps","dub-webapps-yb","dub-dubbo-bill-check","dub-openapi","dub-exchange",
                     "dub-examine-north-webapp","dub-upload","dub-webapps","dub-baseparam-webapp","dub-receipt-handler",
                     "dub-dleybsl-webapp","dub-dlfreight-webapp","dub-exchange-edl-webapp",
                     "dub-manifest-sz-tools-webapp","dub-hezhu-webapp","dub-manifest-sz-webapp","dub-szeybsl-webapp",
@@ -283,12 +269,12 @@ if __name__ == '__main__':
                     "dub-declare-app","dub-declare-controller","dub-declare-qd-app","dub-urule-app",
                     "dub-bill-distribution-app","dub-param-app","dub-declare-aeo-controller","dub-declare-aeo-service",
                     "dub-exchange-aliyun","dub-exchange-eport-qd","dub-flow-app","dub-mobile","dub-points-webapp",
-                    "dub-webapp-datas","dub-portal-html","dub-portal-webapp","dub-dfs"] """
+                    "dub-webapp-datas","dub-portal-html","dub-portal-webapp","dub-dfs"]'''
 
-    app_list_test = ["dub-finance-app", "dub-import-controller-app", "dub-import-declare-app", "dub-declare-aeo-controller", "dub-declare-aeo-service", "dub-declare-app", "dub-declare-qd-app", "dub-szeybsl-webapp", "dub-front-end", "dub-front-end-nb", "dub-hezhu-webapp", "dub-webapp-datas", "dub-baseparam-webapp", "dub-user-app", "dub-declare-controller", "dub-front-end-sh"]
+    app_list_test = ["dub-webapp-datas"]
     p = PutAppToFtpServer(app_list_test)
-    #p.CopyAppToLocal(app_dir)
+    p.CopyAppToLocal(app_dir)
     #p.FtpMkdirfolder(ftp, app_list_test)
-    p.CopyAppToFtp(app_list_test, app_dir)
+    #p.CopyAppToFtp(app_list_test, app_dir)
     ftp.close()
     print("应用从测试环境发送到FTP服务器（192.168.1.59）机器成功，请核对相应的应用存放情况！")
