@@ -270,7 +270,7 @@ if __name__ == "__main__":
     ftp.connect("192.168.1.59", 21)  # 连接的ftp sever和端口
     ftp.login("dongye", "t@12345678")  # 连接的用户名，密码
     try:
-        #ftp.cwd(desdir + "部署说明")
+        ftp.cwd(desdir + "部署说明")
         ftp.cwd(desdir + "数据库脚本")
         print("部署说明和数据库脚本" + ": 当日版本文件夹已存在")
     except:

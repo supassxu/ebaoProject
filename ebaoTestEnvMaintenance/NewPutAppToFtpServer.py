@@ -5,6 +5,7 @@ import numpy as np
 import paramiko
 import sys
 
+
 class PutAppToFtpServer:
     """
     1、获取那些应用需要部署；
@@ -80,7 +81,7 @@ class PutAppToFtpServer:
                         ["dub-front-end-sh", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-sh/dist_sh.tar",
                          "dist_sh.tar"],
                         ["dub-front-end-dl", "192.168.3.129", "/usr/local/tomcat/prod-dub-front-end-dl/dist_dl.tar",
-                         "dist_sh.tar"],
+                         "dist_dl.tar"],
                         ["phx-operate-front", "192.168.8.113",
                          "/usr/local/tomcat/prod-phx-operate-front/dist_phx_prod.tar", "dist_phx_prod.tar"],
                         ["phx-operate-app", "192.168.8.109", "/server/soft/exchange/deploy/phx-operate-app/",
@@ -136,6 +137,11 @@ class PutAppToFtpServer:
                          "dfs-service-1.0.0-SNAPSHOT.jar"],
                         ["dub-user-app", "192.168.8.109", "/server/soft/exchange/deploy/dub-user-app/",
                          "dub-user-app.tar"],
+                        ["dub-dfs2.0", "192.168.8.12",
+                         "/usr/local/tomcat/dfs-service-7210/dfs-service-1.0.0-SNAPSHOT.jar",
+                         "dfs-service-1.0.0-SNAPSHOT.jar"],
+                        ["dub-track-app", "192.168.8.12", "/server/soft/exchange/deploy/dub-track-app/",
+                         "dub-track-app.tar"]
                         ])
 
     def __init__(self, app_list):
@@ -159,20 +165,20 @@ class PutAppToFtpServer:
                 ssh_x.close()
                 print("应用应用" + app_dir[i][0] + "拷贝到本地路径成功；")
 
-    def FtpMkdirfolder(self, myftp, app_list1):
+    def FtpMkdirfolder(self, ftp, app_list1):
         try:
-            myftp.cwd(desdir)
+            ftp.cwd(desdir)
             print("当日版本文件夹已存在")
         except:
-            myftp.mkd(desdir)
+            ftp.mkd(desdir)
             print("当日版本文件夹已创建成功")
-            myftp.cwd(desdir)
+            ftp.cwd(desdir)
         for app in app_list1:
             try:
-                myftp.cwd(desdir + str(app))
+                ftp.cwd(desdir + str(app))
                 print(str(app) + ": 当日版本文件夹已存在")
             except:
-                myftp.mkd(app)
+                ftp.mkd(app)
                 print(str(app) + "：文件夹创建成功")
         print("当日版本所有文件夹创建成功")
 
@@ -247,7 +253,9 @@ class PutAppToFtpServer:
         def __del__(self):
             self.close()
 
+
 if __name__ == '__main__':
+
     print("请核对是否今天版本的所有发布包都已经是构建到最新了；前端打线上包，后端打一套环境包！")
     app_list_test = sys.argv[1].strip('\"').split(',')
 
