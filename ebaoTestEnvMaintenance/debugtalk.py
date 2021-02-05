@@ -194,7 +194,8 @@ def captcha_ca():
     # 把识别的字符串合并，防止出现空格
     code_new = ''.join(code.split())
     # print(code_new)
-    return code_new
+    # return code_new
+    return "6666"
 
 
 def test_ssolog():
@@ -202,23 +203,28 @@ def test_ssolog():
     跳转登录接口
     """
 
-    url = "https://sso.smartebao.com/sso/login"
+    # url = "https://sso.smartebao.com/sso/login"
+    url = "https://sso-test.smartebao.com:20135/login/dub-test"
 
     payload = {
-        "userId": "alladmin",
+        "userId": "ebaoAdmin",
         "appCode": "dub",
-        "service": "http://sw.zjport.gov.cn/dub-param-controller/toIndex?"
-                   "service=http%3a%2f%2fsw.zjport.gov.cn%2fdub-webapp-index%2f%23%2fdashboard",
+        # "service": "http://sw.zjport.gov.cn/dub-param-controller/toIndex?"
+                   # "service=http%3a%2f%2fsw.zjport.gov.cn%2fdub-webapp-index%2f%23%2fdashboard",
+        "service": "https://declare-test.smartebao.com:20138/dub-param-controller/toIndex?"
+                   "service=https%3a%2f%2fdeclare-test.smartebao.com%3a20138%2fdub-webapp-index%2f%23%2fdashboard",
         "password": "t@987654321",
         "captcha": captcha_ca()
     }
     headers = {
         'content-type': 'application/json',
-        'origin': 'https://sso.smartebao.com',
+        # 'origin': 'https://sso.smartebao.com',
+        'origin': 'https://sso-test.smartebao.com:20135',
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'cors',
         'sec-fetch-dest': 'empty',
-        'referer': 'https://sso.smartebao.com/dub/login',
+        # 'referer': 'https://sso.smartebao.com/dub/login',
+        'referer': 'https://sso-test.smartebao.com:20135/login/dub-test',
         'accept-encoding': 'gzip, deflate, br',
         'accept-language': 'zh-CN,zh;q=0.9',
     }
@@ -242,7 +248,8 @@ def toIndex():
     """
     url1 = test_ssolog()[0]
     # url = url1["payload"]["redirect"]
-    url = "http://sw.zjport.gov.cn/dub-webapps-yb/index?url=http://www.zjport.gov.cn/&ticket=ST-360-pciET0ehGJWxRTqHgxYW&clientId=267f6483-fc87-42f6-9325-c0b7733efa3b"
+    # url = "http://sw.zjport.gov.cn/dub-webapps-yb/index?url=http://www.zjport.gov.cn/&ticket=ST-360-pciET0ehGJWxRTqHgxYW&clientId=267f6483-fc87-42f6-9325-c0b7733efa3b"
+    url = "ttps://declare-test.smartebao.com:20138/dub-param-controller/toIndex?service=https%3a%2f%2fdeclare-test.smartebao.com%3a20138%2fdub-webapp-index%2f%23%2fdashboard&ticket=ST-51-725605260993397730-f6db543f-a54a-42a3-9629-8c398ba3db38"
     print("返回url:", f"{url}")
     headers = {
         "Host": "sw.zjport.gov.cn",
@@ -264,8 +271,8 @@ def toIndex():
 
 
 if __name__ == '__main__':
-    print("验证码:" f"{captcha_ca()}")
-    # print("登录request:" f"{test_ssolog()[0]}","登录header:" f"{test_ssolog()[1]}","登录cookies:" f"{test_ssolog()[2]}")
+    # print("验证码:" f"{captcha_ca()}")
+    print("登录request:" f"{test_ssolog()[0]}","登录header:" f"{test_ssolog()[1]}","登录cookies:" f"{test_ssolog()[2]}")
     #print("登录:%s" % test_ssolog()[1])
     #print("》》》====跳转返回code:" f"{toIndex()}")
     #print("》》》====跳转返回code:" f"{toIndex()[2]}")
